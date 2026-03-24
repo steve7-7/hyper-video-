@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gaming - VideoHub</title>
+    <title>Gaming Videos - VideoHub</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -42,11 +42,17 @@
         .logo {
             font-size: 1.8rem;
             font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .logo a {
             color: white;
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .nav-links {
@@ -59,6 +65,7 @@
             color: white;
             text-decoration: none;
             transition: opacity 0.3s;
+            font-weight: 500;
         }
 
         .nav-links a:hover {
@@ -83,25 +90,43 @@
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(255,107,107,0.7), rgba(255,107,107,0.7)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23ff6b6b" width="1200" height="600"/><circle fill="%23667eea" opacity="0.2" cx="300" cy="200" r="150"/></svg>');
-            background-size: cover;
-            height: 60vh;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8a8a 100%);
+            color: white;
+            height: 50vh;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            color: white;
             margin-top: 70px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
         }
 
         .hero-content h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+            font-weight: 700;
         }
 
         .hero-content p {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             max-width: 600px;
+            position: relative;
+            z-index: 1;
+            opacity: 0.95;
         }
 
         /* Content Section */
@@ -111,10 +136,46 @@
             margin: 0 auto;
         }
 
-        .section-title {
-            font-size: 2.5rem;
+        .section-header {
             margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
             color: #333;
+            font-weight: 700;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 600px;
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.6rem 1.2rem;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            color: #333;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
         }
 
         .video-grid {
@@ -125,27 +186,41 @@
 
         .video-card {
             background: white;
-            border-radius: 15px;
+            border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
         }
 
         .video-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
         }
 
         .video-thumbnail {
             width: 100%;
             height: 160px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8a8a 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 3rem;
             color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-thumbnail::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            border: 3px solid white;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .video-info {
@@ -155,19 +230,29 @@
         .video-info h3 {
             margin-bottom: 0.5rem;
             color: #333;
+            font-size: 1.1rem;
+            font-weight: 600;
         }
 
         .video-info p {
             color: #666;
             font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #999;
         }
 
         /* Footer */
         footer {
-            background: #333;
+            background: #1a1a1a;
             color: white;
-            text-align: center;
-            padding: 3rem 2rem 1rem;
+            padding: 4rem 2rem 1rem;
             margin-top: 3rem;
         }
 
@@ -183,13 +268,27 @@
         .footer-section h3 {
             margin-bottom: 1rem;
             color: #667eea;
+            font-weight: 700;
         }
 
         .footer-section a {
-            color: #ccc;
+            color: #aaa;
             text-decoration: none;
             display: block;
             margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #667eea;
+        }
+
+        .footer-divider {
+            border-top: 1px solid #333;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+            color: #aaa;
         }
 
         /* Responsive */
@@ -199,11 +298,19 @@
             }
 
             .hero-content h1 {
-                font-size: 2.5rem;
+                font-size: 2rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.8rem;
             }
 
             .video-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                grid-template-columns: 1fr;
+            }
+
+            .filter-bar {
+                overflow-x: auto;
             }
         }
     </style>
@@ -212,11 +319,11 @@
     <!-- Header -->
     <header>
         <nav>
-            <div class="logo"><a href="/">VideoHub</a></div>
+            <div class="logo"><a href="/"><i class="fas fa-video"></i>VideoHub</a></div>
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
-                <li><a href="/">Categories</a></li>
-                <li><a href="/">About</a></li>
+                <li><a href="/#categories">Categories</a></li>
+                <li><a href="/#features">Features</a></li>
             </ul>
             <button class="cta-button">Sign Up</button>
         </nav>
@@ -225,55 +332,92 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h1>Gaming Videos</h1>
-            <p>Explore the best gaming content from streamers and creators worldwide</p>
+            <h1><i class="fas fa-gamepad"></i> Gaming Videos</h1>
+            <p>Explore competitive tournaments, streaming highlights, and epic gameplay from the world's best gamers</p>
         </div>
     </section>
 
     <!-- Content Section -->
     <section class="content">
-        <h2 class="section-title">Popular Gaming Videos</h2>
+        <div class="section-header">
+            <h2>Trending Gaming Content</h2>
+            <p>Watch the latest esports tournaments, gaming reviews, and speedruns from top creators</p>
+        </div>
+
+        <div class="filter-bar">
+            <button class="filter-btn active">All</button>
+            <button class="filter-btn">Esports</button>
+            <button class="filter-btn">Streams</button>
+            <button class="filter-btn">Reviews</button>
+            <button class="filter-btn">Speedruns</button>
+            <button class="filter-btn">Tutorials</button>
+        </div>
+
         <div class="video-grid">
             <div class="video-card">
                 <div class="video-thumbnail"><i class="fas fa-gamepad"></i></div>
                 <div class="video-info">
-                    <h3>Epic Gaming Moments</h3>
-                    <p>Watch the most incredible gaming moments</p>
+                    <h3>Global Esports Championship Finals</h3>
+                    <p>Watch the most competitive gaming tournament of the year with top professional players.</p>
+                    <div class="video-meta">
+                        <span><i class="fas fa-eye"></i> 2.4M views</span>
+                        <span><i class="fas fa-star"></i> 4.8/5</span>
+                    </div>
                 </div>
             </div>
             <div class="video-card">
                 <div class="video-thumbnail"><i class="fas fa-gamepad"></i></div>
                 <div class="video-info">
-                    <h3>Competitive Gaming</h3>
-                    <p>Tournament highlights and esports action</p>
+                    <h3>24-Hour Gaming Marathon</h3>
+                    <p>Full stream of intense gaming action as players compete for the world record.</p>
+                    <div class="video-meta">
+                        <span><i class="fas fa-eye"></i> 1.2M views</span>
+                        <span><i class="fas fa-star"></i> 4.6/5</span>
+                    </div>
                 </div>
             </div>
             <div class="video-card">
                 <div class="video-thumbnail"><i class="fas fa-gamepad"></i></div>
                 <div class="video-info">
-                    <h3>Game Reviews</h3>
-                    <p>Latest game reviews and walkthroughs</p>
+                    <h3>Next-Gen Console Review</h3>
+                    <p>Comprehensive analysis of the latest gaming console with performance benchmarks.</p>
+                    <div class="video-meta">
+                        <span><i class="fas fa-eye"></i> 3.1M views</span>
+                        <span><i class="fas fa-star"></i> 4.7/5</span>
+                    </div>
                 </div>
             </div>
             <div class="video-card">
                 <div class="video-thumbnail"><i class="fas fa-gamepad"></i></div>
                 <div class="video-info">
-                    <h3>Speedruns</h3>
-                    <p>Amazing speedrun attempts and records</p>
+                    <h3>Game Speedrun World Record</h3>
+                    <p>Watch a professional speedrunner complete the game in record-breaking time.</p>
+                    <div class="video-meta">
+                        <span><i class="fas fa-eye"></i> 890K views</span>
+                        <span><i class="fas fa-star"></i> 4.9/5</span>
+                    </div>
                 </div>
             </div>
             <div class="video-card">
                 <div class="video-thumbnail"><i class="fas fa-gamepad"></i></div>
                 <div class="video-info">
-                    <h3>Gaming News</h3>
-                    <p>Latest gaming industry news and updates</p>
+                    <h3>Pro Gaming Training Guide</h3>
+                    <p>Learn advanced strategies and techniques from professional esports players.</p>
+                    <div class="video-meta">
+                        <span><i class="fas fa-eye"></i> 540K views</span>
+                        <span><i class="fas fa-star"></i> 4.8/5</span>
+                    </div>
                 </div>
             </div>
             <div class="video-card">
                 <div class="video-thumbnail"><i class="fas fa-gamepad"></i></div>
                 <div class="video-info">
-                    <h3>Tutorials</h3>
-                    <p>Gaming tips and tricks to improve your skills</p>
+                    <h3>Gaming Tech Deep Dive</h3>
+                    <p>Explore the latest gaming technology and hardware improvements shaping the industry.</p>
+                    <div class="video-meta">
+                        <span><i class="fas fa-eye"></i> 720K views</span>
+                        <span><i class="fas fa-star"></i> 4.7/5</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -283,23 +427,34 @@
     <footer>
         <div class="footer-content">
             <div class="footer-section">
-                <h3>VideoHub</h3>
-                <p>The ultimate platform for video creators and viewers worldwide.</p>
+                <h3><i class="fas fa-video"></i> VideoHub</h3>
+                <p>Your destination for premium gaming content. Watch tournaments, streams, reviews, and more from the world's best gamers.</p>
             </div>
             <div class="footer-section">
                 <h3>Categories</h3>
                 <a href="/gaming.html">Gaming</a>
                 <a href="/music.html">Music</a>
+                <a href="/sports.html">Sports</a>
+                <a href="/movies.html">Movies</a>
+                <a href="/vlogs.html">Vlogs</a>
                 <a href="/tutorials.html">Tutorials</a>
             </div>
             <div class="footer-section">
                 <h3>Company</h3>
                 <a href="/">Home</a>
-                <a href="/">About</a>
-                <a href="/">Contact</a>
+                <a href="/#features">Features</a>
+                <a href="#">About Us</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+                <a href="#">Help Center</a>
+                <a href="#">Community</a>
+                <a href="#">Status</a>
+                <a href="#">Blog</a>
             </div>
         </div>
-        <div style="border-top: 1px solid #555; padding-top: 2rem; margin-top: 2rem;">
+        <div class="footer-divider">
             <p>&copy; 2024 VideoHub. All rights reserved.</p>
         </div>
     </footer>
