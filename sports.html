@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Videos - VideoHub</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .cta-button {
+            background: #ff6b6b;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #18bc9c 0%, #1abc7e 100%);
+            color: white;
+            height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 70px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+            font-weight: 700;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            position: relative;
+            z-index: 1;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+            font-weight: 700;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 600px;
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.6rem 1.2rem;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            color: #333;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .video-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .video-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 160px;
+            background: linear-gradient(135deg, #18bc9c 0%, #1abc7e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-thumbnail::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            border: 3px solid white;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .video-info {
+            padding: 1.5rem;
+        }
+
+        .video-info h3 {
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .video-info p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 4rem 2rem 1rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #667eea;
+            font-weight: 700;
+        }
+
+        .footer-section a {
+            color: #aaa;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #667eea;
+        }
+
+        .footer-divider {
+            border-top: 1px solid #333;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+            color: #aaa;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo"><a href="/"><i class="fas fa-video"></i>VideoHub</a></div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/#categories">Categories</a></li>
+                <li><a href="/#features">Features</a></li>
+            </ul>
+            <button class="cta-button">Sign Up</button>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1><i class="fas fa-trophy"></i> Sports Videos</h1>
+            <p>Watch thrilling matches, highlights, and athletic performances from the world's biggest sporting events</p>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="section-header">
+            <h2>Sports Highlights & Matches</h2>
+            <p>Catch the latest sports action including match highlights, tournaments, and athlete interviews</p>
+        </div>
+
+        <div class="filter-bar">
+            <button class="filter-btn active">All</button>
+            <button class="filter-btn">Football</button>
+            <button class="filter-btn">Basketball</button>
+            <button class="filter-btn">Tennis</button>
+            <button class="filter-btn">Baseball</button>
+            <button class="filter-btn">Other Sports</button>
+        </div>
+
+        <div class="video-grid">
+            <div class="video-card">
+                <div class="video-thumbnail"><i class="fas fa-football-ball"></i></div>
+                <div class="video-info">
+                    <h3>Championship Final Highlights</h3>
+                    <p>Best moments from the year's most thrilling championship game.</p>
+                    <div class="video-meta">
+                        <span><i class="fas fa-eye"></i> 12M views</span>
+                        <span><i class="fas fa-star"></i> 4.9/5</span>
+                    </div>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-thumbnail"><i class="fas fa-basketball-ball"></i></div>
+                <div class="video-info">
+                    <h3>NBA All-Star Game</h3>
+                    <p>Full game coverage of the most exciting basketball spectacle.</p>
+                    <div class="video-meta">
+                        <span><i class="fas fa-eye"></i> 8.5M views</span>
+                        <span><i class="fas fa-star"></i> 4.8/5</span>
+                    </div>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-thumbnail"><i class="fas fa-running"></i></div>
+                <div class="video-info">
+                    <h3>Olympic Games Documentary</h3>
+                    <p>Inspiring stories from athletes competing at the highest level.</p>
+                    <div class="video-meta">
+                        <span><i class="fas fa-eye"></i> 6.2M views</span>
+                        <span><i class="fas fa-star"></i> 4.9/5</span>
+                    </div>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-thumbnail"><i class="fas fa-medal"></i></div>
+                <div class="video-info">
+                    <h3>Tennis Grand Slam Final</h3>
+                    <p>Complete coverage of the year's biggest tennis championship.</p>
+                    <div class="video-meta">
+                        <span><i class="fas fa-eye"></i> 4.3M views</span>
+                        <span><i class="fas fa-star"></i> 4.8/5</span>
+                    </div>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-thumbnail"><i class="fas fa-baseball-ball"></i></div>
+                <div class="video-info">
+                    <h3>World Series Recap</h3>
+                    <p>All the action and drama from baseball's most prestigious event.</p>
+                    <div class="video-meta">
+                        <span><i class="fas fa-eye"></i> 3.8M views</span>
+                        <span><i class="fas fa-star"></i> 4.7/5</span>
+                    </div>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-thumbnail"><i class="fas fa-dumbbell"></i></div>
+                <div class="video-info">
+                    <h3>Athletic Training Masterclass</h3>
+                    <p>Learn fitness and training secrets from professional athletes.</p>
+                    <div class="video-meta">
+                        <span><i class="fas fa-eye"></i> 2.1M views</span>
+                        <span><i class="fas fa-star"></i> 4.8/5</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-video"></i> VideoHub</h3>
+                <p>Your ultimate sports destination. Watch live matches, exclusive highlights, and behind-the-scenes content from professional athletes and leagues worldwide.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Categories</h3>
+                <a href="/gaming.html">Gaming</a>
+                <a href="/music.html">Music</a>
+                <a href="/sports.html">Sports</a>
+                <a href="/movies.html">Movies</a>
+                <a href="/vlogs.html">Vlogs</a>
+                <a href="/tutorials.html">Tutorials</a>
+            </div>
+            <div class="footer-section">
+                <h3>Company</h3>
+                <a href="/">Home</a>
+                <a href="/#features">Features</a>
+                <a href="#">About Us</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+                <a href="#">Help Center</a>
+                <a href="#">Community</a>
+                <a href="#">Status</a>
+                <a href="#">Blog</a>
+            </div>
+        </div>
+        <div class="footer-divider">
+            <p>&copy; 2024 VideoHub. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
